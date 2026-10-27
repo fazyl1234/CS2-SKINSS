@@ -1,0 +1,345 @@
+CS2 SKINS — бе
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101318">
+<meta name="description" content="CS2 SKINS — бесплатная браузерная игра с виртуальными кейсами, апгрейдами, коллекцией скинов, заданиями и достижениями.">
+<title>CS2 SKINS — Case Opening & Upgrade</title>
+<style>
+:root{--bg:#101318;--panel:#191e27;--panel2:#222a35;--line:#343e4c;--text:#f2f4f7;--muted:#a0aaba;--orange:#f0a43a;--green:#a6e22e;--red:#ff707d;--blue:#61baff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px Arial,sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.top{height:68px;position:sticky;top:0;z-index:10;background:#151a22;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(calc((100% - 1120px)/2),16px);gap:12px}
+.logo{font-size:21px;font-weight:900;letter-spacing:1px}.logo span{color:var(--orange)}
+.wallet{display:flex;gap:10px;align-items:center;font-weight:bold}.coins{color:var(--green);background:#252d32;padding:10px 13px;border-radius:9px}
+.wrap{max-width:1120px;margin:auto;padding:22px 16px 45px}
+.hero{padding:28px 0 22px;background:radial-gradient(ellipse at 75% 20%,#343020 0,transparent 45%)}
+.kicker{font-size:11px;color:var(--orange);font-weight:bold;letter-spacing:2px}
+h1{font-size:clamp(32px,6vw,53px);margin:10px 0;letter-spacing:-1.5px}
+h1 span{color:var(--orange)}p{line-height:1.5}
+.muted{color:var(--muted);font-size:13px;line-height:1.5}
+.tabs{display:flex;gap:7px;overflow:auto;padding:12px 0 19px}
+.tab{flex-shrink:0;background:var(--panel);border:1px solid var(--line);color:var(--muted);padding:12px 14px;border-radius:9px;font-weight:bold}
+.tab.active{background:#392c1b;color:var(--orange);border-color:#91672f}
+h2{font-size:22px;margin:0 0 14px}h3{font-size:16px;margin:0 0 9px}
+.head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:20px 0 13px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+.art{height:120px;display:grid;place-items:center;font-size:57px;border-radius:9px;margin-bottom:13px;background:radial-gradient(ellipse,#47402e,#20252e 70%)}
+.case:nth-child(2) .art{background:radial-gradient(ellipse,#304653,#20252e 70%)}
+.case:nth-child(3) .art{background:radial-gradient(ellipse,#493054,#20252e 70%)}
+.price{font-weight:bold;color:var(--green);margin:11px 0}
+.btn{border:0;background:var(--orange);color:#17130c;border-radius:8px;padding:11px 13px;font-weight:bold}
+.btn:hover{filter:brightness(1.12)}.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}
+.btn.red{background:#48242b;color:#ffc0c5}.btn.green{background:var(--green);color:#101509}
+.full{width:100%}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.hidden{display:none!important}
+label{display:block;color:#d3d9e2;font-size:13px;margin:11px 0 6px}
+input,select{width:100%;padding:10px;background:#11161d;border:1px solid var(--line);color:var(--text);border-radius:8px;min-width:0}
+input:focus,select:focus{outline:1px solid var(--orange)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dropbox{margin-top:16px;padding:18px;background:#131922;border:1px solid var(--line);border-radius:12px}
+.drop{display:flex;align-items:center;gap:15px}.drop .art{width:100px;height:90px;flex-shrink:0;font-size:45px;margin:0}
+.r-common{color:#b8c2cf}.r-uncommon{color:#70c0ff}.r-rare{color:#b995ff}.r-epic{color:#ff78c7}.r-legend{color:#ffca69}
+.rarity{font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:.7px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:14px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}
+.stat strong{display:block;font-size:22px;color:var(--orange);margin-bottom:5px}
+.inventory{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
+.item{background:var(--panel);border:1px solid var(--line);padding:12px;border-radius:10px;min-width:0}
+.item .art{height:75px;font-size:40px;margin-bottom:9px}
+.item .iname{font-size:13px;font-weight:bold;overflow-wrap:anywhere;min-height:31px}
+.item .btn{font-size:12px;padding:9px 5px}
+.empty{grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);border:1px dashed var(--line);border-radius:10px}
+.upgrid{display:grid;grid-template-columns:1fr 48px 1fr;gap:12px;align-items:center}
+.slot{background:#121720;border:1px dashed #485363;border-radius:12px;padding:15px;min-height:200px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-width:0}
+.slot .art{width:100%;max-width:160px;height:80px;font-size:40px;margin:0}
+.arrow{text-align:center;color:var(--orange);font-size:27px}
+.bar{height:8px;background:#303946;border-radius:20px;overflow:hidden;margin:12px 0}
+.bar div{height:100%;width:0;background:var(--green);transition:width .25s}
+.message{padding:13px;background:#121720;border:1px solid var(--line);border-radius:9px;margin-top:12px;line-height:1.5}
+.list{display:grid;gap:9px}.mission{display:flex;align-items:center;gap:12px}.mission .mtext{flex:1;min-width:0}
+.progress{height:6px;background:#303946;border-radius:10px;margin-top:7px;overflow:hidden}.progress div{height:100%;background:var(--orange)}
+.badge{background:#292b2b;border:1px solid #5b4c30;border-radius:9px;padding:13px}
+.badge .emoji{font-size:27px}.badge.locked{opacity:.42;filter:grayscale(1)}
+.notice{background:#171c24;border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:26px;color:var(--muted);font-size:12px;line-height:1.6}
+footer{text-align:center;color:#788496;font-size:12px;padding:24px}
+@keyframes reveal{0%{transform:scale(.8);opacity:.2}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+.reveal{animation:reveal .35s ease}
+@media(max-width:750px){.grid{grid-template-columns:1fr}.inventory{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.upgrid{grid-template-columns:1fr}.arrow{transform:rotate(90deg)}.top{padding:0 12px}.wrap{padding-top:10px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="logo">CS2 <span>SKINS</span></div>
+  <div class="wallet"><span>🪙 <span id="balance">1000</span></span><button class="btn secondary" onclick="showTab('profile')">👤 <span id="topName">Player</span></button></div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <div class="kicker">CASE OPENING • UPGRADE • COLLECTION</div>
+    <h1>OPEN. <span>UPGRADE.</span><br>COLLECT.</h1>
+    <p class="muted">Собирай виртуальные скины, открывай кейсы и прокачивай коллекцию. Начни с 1000 монет — твой прогресс сохраняется в браузере.</p>
+  </section>
+  <div class="stats">
+    <div class="stat"><strong id="statItems">0</strong><span class="muted">Предметов</span></div>
+    <div class="stat"><strong id="statCases">0</strong><span class="muted">Кейсов открыто</span></div>
+    <div class="stat"><strong id="statValue">0</strong><span class="muted">Стоимость коллекции</span></div>
+    <div class="stat"><strong id="statLevel">1</strong><span class="muted">Уровень профиля</span></div>
+  </div>
+  <nav class="tabs">
+    <button class="tab active" data-tab="cases">📦 Кейсы</button>
+    <button class="tab" data-tab="upgrade">⚡ Апгрейд</button>
+    <button class="tab" data-tab="inventory">🎒 Инвентарь</button>
+    <button class="tab" data-tab="missions">🎯 Задания</button>
+    <button class="tab" data-tab="achievements">🏆 Достижения</button>
+    <button class="tab" data-tab="profile">👤 Профиль</button>
+  </nav>
+
+  <section id="page-cases">
+    <div class="head"><h2>Выбери кейс</h2><span class="muted">Случайные виртуальные предметы</span></div>
+    <div class="grid">
+      <article class="card case">
+        <div class="art">📦</div><h3>Starter Case</h3><p class="muted">Кейс для начала коллекции.</p><div class="price">🪙 100 монет</div>
+        <button class="btn full" onclick="openCase('starter')">Открыть кейс</button>
+      </article>
+      <article class="card case">
+        <div class="art">🗃️</div><h3>Pro Case</h3><p class="muted">Больше шансов на редкие предметы.</p><div class="price">🪙 300 монет</div>
+        <button class="btn full" onclick="openCase('pro')">Открыть кейс</button>
+      </article>
+      <article class="card case">
+        <div class="art">💎</div><h3>Elite Case</h3><p class="muted">Дорогой кейс с шансом на легенду.</p><div class="price">🪙 600 монет</div>
+        <button class="btn full" onclick="openCase('elite')">Открыть кейс</button>
+      </article>
+    </div>
+    <div id="dropbox" class="dropbox hidden" aria-live="polite"></div>
+    <div class="head"><h2>Последние события</h2></div><div id="recent" class="list"></div>
+  </section>
+
+  <section id="page-upgrade" class="hidden">
+    <h2>Skin Upgrade</h2><p class="muted">Выбери предмет из коллекции и цель дороже. При успехе получишь цель; при неудаче исходный предмет потеряется.</p>
+    <div class="upgrid">
+      <div class="slot"><div class="art" id="sourceArt">🎯</div><strong id="sourceName">Твой скин</strong><span id="sourceValue" class="muted">Выбери предмет</span><select id="sourceSelect"></select></div>
+      <div class="arrow">➜</div>
+      <div class="slot"><div class="art" id="targetArt">❔</div><strong id="targetName">Цель</strong><span id="targetValue" class="muted">Предмет подороже</span><select id="targetSelect"></select></div>
+    </div>
+    <div class="card" style="margin-top:14px"><div class="head"><h3>Шанс успеха</h3><strong id="chanceText">0%</strong></div><div class="bar"><div id="chanceBar"></div></div><p class="muted" id="upgradeInfo">Выбери оба предмета.</p><button class="btn full" id="upgradeButton" onclick="runUpgrade()" disabled>⚡ Запустить апгрейд</button><div class="message" id="upgradeResult">Результат появится здесь.</div></div>
+  </section>
+
+  <section id="page-inventory" class="hidden">
+    <div class="head"><h2>Инвентарь</h2><span id="invValue" class="muted">0 монет</span></div>
+    <div class="row">
+      <div><label for="filter">Фильтр редкости</label><select id="filter"><option value="all">Все предметы</option><option value="Обычный">Обычные</option><option value="Необычный">Необычные</option><option value="Редкий">Редкие</option><option value="Эпический">Эпические</option><option value="Легендарный">Легендарные</option></select></div>
+      <div><label for="sort">Сортировка</label><select id="sort"><option value="new">Сначала новые</option><option value="high">Сначала дорогие</option><option value="low">Сначала дешёвые</option></select></div>
+    </div>
+    <p class="muted">Продажа возвращает 70% условной стоимости предмета.</p>
+    <div class="inventory" id="inventoryList" style="margin-top:14px"></div>
+  </section>
+
+  <section id="page-missions" class="hidden">
+    <h2>Ежедневные задания</h2><p class="muted">Выполняй игровые действия и получай виртуальные монеты. Прогресс сохраняется.</p>
+    <div id="missionList" class="list"></div>
+    <div class="card" style="margin-top:14px"><h3>Ежедневный бонус</h3><p class="muted">Забирай +200 монет один раз в сутки.</p><button id="bonusBtn" class="btn" onclick="dailyBonus()">🎁 Забрать бонус (+200)</button></div>
+  </section>
+
+  <section id="page-achievements" class="hidden">
+    <h2>Достижения</h2><p class="muted">Открывай достижения за прогресс в игре.</p><div class="grid" id="achievementList"></div>
+  </section>
+
+  <section id="page-profile" class="hidden">
+    <h2>Профиль игрока</h2>
+    <div class="card">
+      <label for="playerName">Имя игрока</label><input id="playerName" maxlength="20" placeholder="Например, Nexo">
+      <button class="btn" onclick="saveName()">Сохранить имя</button>
+      <div class="head"><h3>Опыт и уровень</h3><strong id="xpText">0 XP</strong></div>
+      <div class="bar"><div id="xpBar"></div></div><p class="muted" id="levelText">До следующего уровня</p>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h3>Сохранение прогресса</h3><p class="muted">Скачай резервную копию или восстанови сохранение из JSON-файла.</p>
+      <div class="actions"><button class="btn secondary" onclick="exportSave()">⬇ Экспорт сохранения</button><label class="btn secondary" for="importFile" style="margin:0">⬆ Импорт сохранения</label><input id="importFile" type="file" accept=".json,application/json" class="hidden"></div>
+      <div class="actions"><button class="btn red" onclick="resetGame()">Сбросить прогресс</button></div>
+    </div>
+  </section>
+
+  <div class="notice">⚠️ CS2 SKINS — фанатская браузерная игра. Все предметы, изображения-эмодзи, монеты, цены и шансы условные. Нет настоящих скинов, торговли, платежей, ставок или вывода денег. Сохранение находится в браузере этого устройства; очистка данных браузера может удалить прогресс. Это не официальный продукт Valve.</div>
+</main>
+<footer>CS2 SKINS · Виртуальная коллекция · Не связан с Valve</footer>
+
+<script>
+"use strict";
+const KEY="cs2skins_full_v2";
+const catalog=[
+{name:"MP9 | Sand Dash",value:80,rarity:"Обычный",r:"common",emoji:"🔫"},
+{name:"Glock-18 | Night",value:110,rarity:"Обычный",r:"common",emoji:"🔫"},
+{name:"UMP-45 | Carbon",value:150,rarity:"Обычный",r:"common",emoji:"⚙️"},
+{name:"P250 | Cyber",value:220,rarity:"Необычный",r:"uncommon",emoji:"🔹"},
+{name:"MAC-10 | Neon",value:300,rarity:"Необычный",r:"uncommon",emoji:"🟩"},
+{name:"Desert Eagle | Blue",value:450,rarity:"Редкий",r:"rare",emoji:"🔷"},
+{name:"AK-47 | Redline",value:700,rarity:"Редкий",r:"rare",emoji:"🔴"},
+{name:"AWP | Fever Dream",value:1100,rarity:"Эпический",r:"epic",emoji:"🎯"},
+{name:"M4A1-S | Decimator",value:1700,rarity:"Эпический",r:"epic",emoji:"🟣"},
+{name:"★ Karambit | Fade",value:3200,rarity:"Легендарный",r:"legend",emoji:"🔪"},
+{name:"★ Butterfly | Doppler",value:6000,rarity:"Легендарный",r:"legend",emoji:"💎"}
+];
+const cases={
+starter:{cost:100,weights:[30,25,20,12,8,3,1.5,.4,.1,0,0]},
+pro:{cost:300,weights:[8,12,16,20,18,12,7,4,2,.8,.2]},
+elite:{cost:600,weights:[0,2,5,10,15,18,18,14,9,6,3]}
+};
+const missions=[
+{id:"open3",title:"Открой 3 кейса",desc:"Любые кейсы засчитываются.",goal:3,reward:150,metric:"cases"},
+{id:"upgrade1",title:"Успешный апгрейд",desc:"Улучши любой предмет.",goal:1,reward:200,metric:"wins"},
+{id:"collect5",title:"Начинающий коллекционер",desc:"Получи 5 предметов из кейсов.",goal:5,reward:180,metric:"drops"},
+{id:"sell2",title:"Освободи место",desc:"Продай 2 предмета из инвентаря.",goal:2,reward:120,metric:"sales"}
+];
+const achievements=[
+{id:"first",title:"Первый дроп",desc:"Открой первый кейс.",emoji:"📦",test:s=>s.stats.cases>=1},
+{id:"collector",title:"Коллекционер",desc:"Получи 10 предметов.",emoji:"🎒",test:s=>s.stats.drops>=10},
+{id:"upgrade",title:"Улучшатель",desc:"Выиграй первый апгрейд.",emoji:"⚡",test:s=>s.stats.wins>=1},
+{id:"legend",title:"Легендарная находка",desc:"Получи легендарный предмет.",emoji:"💎",test:s=>s.stats.legends>=1},
+{id:"seller",title:"Торговец",desc:"Продай 5 предметов.",emoji:"🪙",test:s=>s.stats.sales>=5},
+{id:"level5",title:"Ветеран",desc:"Достигни 5 уровня.",emoji:"🏆",test:s=>levelOf(s.xp)>=5}
+];
+function fresh(){return {balance:1000,inventory:[],name:"Player",xp:0,lastBonus:"",missionDay:dayKey(),claimed:{},stats:{cases:0,drops:0,wins:0,losses:0,sales:0,spent:0,earned:0,legends:0},history:[]}}
+function dayKey(){const d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()}
+function load(){
+ try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&Number.isFinite(s.balance)&&Array.isArray(s.inventory)&&s.stats){const f=fresh();return {...f,...s,stats:{...f.stats,...s.stats},claimed:s.claimed||{},history:s.history||[]}}}catch(e){}
+ return fresh()
+}
+let state=load();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){alert("Не удалось сохранить. Возможно, хранилище браузера заполнено.")}render()}
+function fmt(n){return Math.round(n).toLocaleString("ru-RU")}
+function levelOf(xp){return Math.floor(Math.sqrt(Math.max(0,xp)/100))+1}
+function xpForLevel(l){return (l-1)*(l-1)*100}
+function addXP(n){state.xp+=n}
+function log(msg){state.history.unshift({msg,time:new Date().toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"})});state.history=state.history.slice(0,10)}
+function itemFrom(index){return {...catalog[index],id:Date.now().toString(36)+Math.random().toString(36).slice(2,9),obtained:Date.now()}}
+function safe(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function weightedPick(weights){let n=Math.random()*weights.reduce((a,b)=>a+b,0);for(let i=0;i<weights.length;i++){n-=weights[i];if(n<0)return i}return weights.length-1}
+function showTab(tab){
+ document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
+ ["cases","upgrade","inventory","missions","achievements","profile"].forEach(id=>document.getElementById("page-"+id).classList.toggle("hidden",id!==tab));
+ if(tab==="upgrade")renderUpgrade();if(tab==="inventory")renderInventory();if(tab==="missions")renderMissions();if(tab==="achievements")renderAchievements();if(tab==="profile")renderProfile()
+}
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+function openCase(type){
+ const c=cases[type];if(state.balance<c.cost){alert("Недостаточно монет. Забери ежедневный бонус или продай ненужный предмет.");return}
+ state.balance-=c.cost;state.stats.spent+=c.cost;state.stats.cases++;
+ const index=weightedPick(c.weights),item=itemFrom(index);state.inventory.push(item);state.stats.drops++;
+ if(item.rarity==="Легендарный")state.stats.legends++;
+ state.xp+=25;log("Открыт кейс: "+item.name);save();
+ const box=document.getElementById("dropbox");box.classList.remove("hidden");
+ box.innerHTML=`<div class="drop reveal"><div class="art">${item.emoji}</div><div><div class="muted">ТВОЙ ДРОП</div><div class="iname ${"r-"+item.r}"><strong>${safe(item.name)}</strong></div><div class="rarity r-${item.r}">${item.rarity}</div><div class="price">🪙 ${fmt(item.value)} монет</div></div></div><p class="muted">Предмет добавлен в инвентарь · +25 XP</p><button class="btn secondary" onclick="showTab('inventory')">Открыть инвентарь</button>`;
+}
+function renderInventory(){
+ const list=document.getElementById("inventoryList");
+ const filter=document.getElementById("filter").value,sort=document.getElementById("sort").value;
+ let items=state.inventory.filter(i=>filter==="all"||i.rarity===filter);
+ if(sort==="high")items.sort((a,b)=>b.value-a.value);else if(sort==="low")items.sort((a,b)=>a.value-b.value);else items.sort((a,b)=>b.obtained-a.obtained);
+ document.getElementById("invValue").textContent="Коллекция: "+fmt(state.inventory.reduce((a,i)=>a+i.value,0))+" монет";
+ if(!items.length){list.innerHTML='<div class="empty">Здесь пока нет предметов. Открой кейс, чтобы начать коллекцию.</div>';return}
+ list.innerHTML=items.map(i=>`<article class="item"><div class="art">${i.emoji}</div><div class="iname r-${i.r}">${safe(i.name)}</div><div class="rarity r-${i.r}">${i.rarity}</div><div class="price">🪙 ${fmt(i.value)}</div><button class="btn secondary full" onclick="selectUpgrade('${i.id}')">⚡ Улучшить</button><button class="btn full" style="margin-top:6px" onclick="sellItem('${i.id}')">Продать за ${fmt(i.value*.7)}</button></article>`).join("")
+}
+document.getElementById("filter").addEventListener("change",renderInventory);
+document.getElementById("sort").addEventListener("change",renderInventory);
+function sellItem(id){
+ const i=state.inventory.find(x=>x.id===id);if(!i)return;
+ const amount=Math.floor(i.value*.7);state.inventory=state.inventory.filter(x=>x.id!==id);state.balance+=amount;state.stats.sales++;state.stats.earned+=amount;state.xp+=10;log("Продан "+i.name+" за "+amount);save()
+}
+function selectUpgrade(id){showTab("upgrade");document.getElementById("sourceSelect").value=id;renderUpgrade()}
+function renderUpgrade(){
+ const src=document.getElementById("sourceSelect"),tgt=document.getElementById("targetSelect");
+ const oldS=src.value,oldT=tgt.value;
+ src.innerHTML='<option value="">Выбери свой скин</option>'+state.inventory.map(i=>`<option value="${i.id}">${safe(i.name)} — ${fmt(i.value)}</option>`).join("");
+ if(state.inventory.some(i=>i.id===oldS))src.value=oldS;
+ const source=state.inventory.find(i=>i.id===src.value);
+ const targets=catalog.map((s,i)=>({...s,id:"target-"+i,index:i})).filter(t=>!source||t.value>source.value);
+ tgt.innerHTML='<option value="">Выбери цель подороже</option>'+targets.map(i=>`<option value="${i.id}">${safe(i.name)} — ${fmt(i.value)}</option>`).join("");
+ if(targets.some(i=>i.id===oldT))tgt.value=oldT;
+ const target=targets.find(i=>i.id===tgt.value);
+ document.getElementById("sourceArt").textContent=source?source.emoji:"🎯";document.getElementById("sourceName").textContent=source?source.name:"Твой скин";document.getElementById("sourceValue").textContent=source?fmt(source.value)+" монет":"Выбери предмет";
+ document.getElementById("targetArt").textContent=target?target.emoji:"❔";document.getElementById("targetName").textContent=target?target.name:"Цель";document.getElementById("targetValue").textContent=target?fmt(target.value)+" монет":"Предмет подороже";
+ const chance=source&&target?Math.min(75,Math.max(2,source.value/target.value*70)):0;
+ document.getElementById("chanceText").textContent=chance.toFixed(1)+"%";document.getElementById("chanceBar").style.width=chance+"%";
+ document.getElementById("upgradeInfo").textContent=source&&target?"Шанс успеха "+chance.toFixed(1)+"%. Успех заменит твой предмет на цель. Неудача удалит исходный предмет.":"Выбери предмет из инвентаря и цель дороже.";
+ document.getElementById("upgradeButton").disabled=!(source&&target)
+}
+document.getElementById("sourceSelect").addEventListener("change",renderUpgrade);
+document.getElementById("targetSelect").addEventListener("change",renderUpgrade);
+function runUpgrade(){
+ const id=document.getElementById("sourceSelect").value,tid=document.getElementById("targetSelect").value;
+ const source=state.inventory.find(i=>i.id===id),index=Number(tid.replace("target-","")),target=catalog[index];
+ if(!source||!target||target.value<=source.value)return;
+ const chance=Math.min(75,Math.max(2,source.value/target.value*70)),ok=Math.random()*100<chance;
+ state.inventory=state.inventory.filter(i=>i.id!==source.id);
+ const out=document.getElementById("upgradeResult");
+ if(ok){const item=itemFrom(index);state.inventory.push(item);state.stats.wins++;state.stats.drops++;if(item.rarity==="Легендарный")state.stats.legends++;state.xp+=60;out.innerHTML=`<strong style="color:var(--green)">УСПЕХ! 🎉</strong><br>Получен ${safe(item.name)} · ${fmt(item.value)} монет · +60 XP`;log("Апгрейд успешен: "+item.name)}
+ else{state.stats.losses++;state.xp+=5;out.innerHTML='<strong style="color:var(--red)">НЕУДАЧА</strong><br>Предмет потерян. За попытку получено +5 XP.';log("Неудачный апгрейд: "+source.name)}
+ save();renderUpgrade()
+}
+function dailyBonus(){
+ const today=dayKey();if(state.lastBonus===today){alert("Бонус уже забран сегодня. Возвращайся завтра!");return}
+ state.lastBonus=today;state.balance+=200;state.stats.earned+=200;addXP(10);log("Ежедневный бонус +200");save();alert("Получено +200 виртуальных монет и +10 XP!")
+}
+function missionProgress(m){return Math.min(m.goal,state.stats[m.metric]||0)}
+function renderMissions(){
+ if(state.missionDay!==dayKey()){state.missionDay=dayKey();state.claimed={}}
+ document.getElementById("missionList").innerHTML=missions.map(m=>{
+ const n=missionProgress(m),done=n>=m.goal,claimed=!!state.claimed[m.id];
+ return `<article class="card mission"><div class="mtext"><h3>${safe(m.title)}</h3><p class="muted">${safe(m.desc)}</p><div class="progress"><div style="width:${n/m.goal*100}%"></div></div><p class="muted">${n}/${m.goal} · Награда: ${m.reward} монет</p></div><button class="btn ${claimed?"secondary":""}" ${(!done||claimed)?"disabled":""} onclick="claimMission('${m.id}')">${claimed?"Получено":done?"Забрать":"В процессе"}</button></article>`
+ }).join("")
+}
+function claimMission(id){
+ const m=missions.find(x=>x.id===id);if(!m||state.claimed[id]||missionProgress(m)<m.goal)return;
+ state.claimed[id]=true;state.balance+=m.reward;state.stats.earned+=m.reward;addXP(20);log("Задание выполнено: "+m.title);save();renderMissions()
+}
+function renderAchievements(){
+ document.getElementById("achievementList").innerHTML=achievements.map(a=>{
+ const unlocked=a.test(state);return `<article class="badge ${unlocked?"":"locked"}"><div class="emoji">${a.emoji}</div><h3>${safe(a.title)}</h3><p class="muted">${safe(a.desc)}</p><strong>${unlocked?"✓ Открыто":"🔒 Закрыто"}</strong></article>`
+ }).join("")
+}
+function renderProfile(){
+ document.getElementById("playerName").value=state.name;
+ const level=levelOf(state.xp),start=xpForLevel(level),end=xpForLevel(level+1),pct=(state.xp-start)/(end-start)*100;
+ document.getElementById("xpText").textContent=state.xp+" XP";document.getElementById("xpBar").style.width=Math.max(0,Math.min(100,pct))+"%";
+ document.getElementById("levelText").textContent="Уровень "+level+" · "+Math.max(0,end-state.xp)+" XP до уровня "+(level+1)
+}
+function saveName(){const n=document.getElementById("playerName").value.trim().slice(0,20);if(!n){alert("Введи имя игрока.");return}state.name=n;save();alert("Имя сохранено!")}
+function exportSave(){
+ const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download="cs2skins-save.json";a.click();URL.revokeObjectURL(url)
+}
+document.getElementById("importFile").addEventListener("change",async e=>{
+ const file=e.target.files[0];if(!file)return;
+ try{
+ const s=JSON.parse(await file.text());
+ if(!s||!Number.isFinite(s.balance)||!Array.isArray(s.inventory)||!s.stats)throw new Error("invalid");
+ if(!confirm("Импорт заменит текущий прогресс. Продолжить?"))return;
+ const validInventory=s.inventory.filter(i=>i&&typeof i.id==="string"&&typeof i.name==="string"&&Number.isFinite(i.value)&&i.value>=0);
+ state={...fresh(),...s,inventory:validInventory,stats:{...fresh().stats,...s.stats},claimed:s.claimed||{},history:Array.isArray(s.history)?s.history:[]};
+ save();alert("Сохранение импортировано!")
+ }catch(err){alert("Не удалось прочитать файл сохранения. Выбери корректный JSON-экспорт CS2 SKINS.")}
+ e.target.value=""
+});
+function resetGame(){if(!confirm("Сбросить баланс, инвентарь и весь прогресс?"))return;state=fresh();localStorage.removeItem(KEY);save();showTab("cases")}
+function renderRecent(){
+ const el=document.getElementById("recent");
+ el.innerHTML=state.history.length?state.history.map(x=>`<div class="message" style="margin:0;display:flex;justify-content:space-between;gap:10px"><span>${safe(x.msg)}</span><span class="muted">${safe(x.time)}</span></div>`).join(""):'<div class="message muted">Здесь появятся события игры.</div>'
+}
+function render(){
+ document.getElementById("balance").textContent=fmt(state.balance);
+ document.getElementById("topName").textContent=safe(state.name);
+ document.getElementById("statItems").textContent=state.inventory.length;
+ document.getElementById("statCases").textContent=state.stats.cases;
+ document.getElementById("statValue").textContent=fmt(state.inventory.reduce((a,i)=>a+i.value,0));
+ document.getElementById("statLevel").textContent=levelOf(state.xp);
+ renderInventory();renderUpgrade();renderMissions();renderAchievements();renderProfile();renderRecent();
+}
+render();
+</script>
+</body>
+</html>
