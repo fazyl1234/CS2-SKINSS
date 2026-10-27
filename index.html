@@ -1,237 +1,299 @@
-CS2 SKINS — бе
 
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CS2 SKINS — Upgrade Simulator</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CS2 SKINS — Cases & Upgrade</title>
 <style>
-:root{--bg:#0b0e13;--panel:#141a23;--line:#293342;--muted:#8b98aa;--gold:#ffb52e;--green:#35d49a;--red:#ff6376}
+:root{--bg:#0c0f14;--side:#10151d;--panel:#171d27;--panel2:#1c2430;--line:#2a3443;--text:#edf1f7;--muted:#8491a3;--orange:#f6a623;--green:#43d69b;--red:#fa6475}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at top,#202b3b,#0b0e13 55%);color:#f2f5fa;font-family:Arial, sans-serif}
-button,input,select{font:inherit}button{cursor:pointer}
-.wrap{max-width:1200px;margin:auto;padding:20px}
-header{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding:10px 0 22px}
-.logo{display:flex;align-items:center;gap:12px}
-.logo-icon{background:linear-gradient(135deg,#ffcf67,#e97712);color:#18130b;padding:13px;border-radius:12px;font-weight:1000}
-h1{font-size:19px;margin:0;letter-spacing:1px}
-.subtitle{color:var(--muted);font-size:12px;margin-top:5px}
-.coins{background:#202936;border:1px solid #39475a;color:#ffd16b;border-radius:10px;padding:12px;font-weight:bold}
-nav{display:flex;gap:8px;flex-wrap:wrap;padding:18px 0}
-.tab{padding:11px 17px;border-radius:9px;border:1px solid var(--line);background:#141a23;color:#aeb9c8}
-.tab.active{color:white;border-color:#bd7c19;background:#342716}
+body{margin:0;background:var(--bg);color:var(--text);font:14px Inter,Arial,sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}
+.app{min-height:100vh}
+.sidebar{position:fixed;inset:0 auto 0 0;width:220px;background:var(--side);border-right:1px solid var(--line);padding:22px 14px;z-index:5;display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:10px;padding:0 8px 25px}
+.brand-mark{width:39px;height:39px;border-radius:11px;background:linear-gradient(145deg,#ffc653,#e98213);display:grid;place-items:center;color:#1a1409;font-weight:1000;font-size:14px}
+.brand-name{font-size:16px;font-weight:900;letter-spacing:.5px}
+.brand-name span{color:var(--orange)}
+.brand-sub{font-size:10px;color:var(--muted);margin-top:4px}
+.nav-title{font-size:10px;color:#667386;letter-spacing:1.5px;padding:14px 11px 8px}
+.nav{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:13px 12px;border:1px solid transparent;border-radius:9px;background:transparent;color:#a6b0bf;margin:2px 0}
+.nav .nav-icon{width:20px;text-align:center;color:#9aa8ba;font-size:16px}
+.nav:hover{background:#1a222e;color:white}
+.nav.active{background:#302517;border-color:#62451d;color:#ffd17b}
+.nav.active .nav-icon{color:var(--orange)}
+.side-bottom{margin-top:auto;border-top:1px solid var(--line);padding:15px 8px 0;color:#788597;font-size:11px;line-height:1.7}
+.main{margin-left:220px;min-height:100vh}
+.topbar{height:72px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:#0e1219;gap:15px}
+.mobile-brand{display:none;font-weight:900}
+.top-status{color:var(--muted);font-size:12px}
+.top-right{display:flex;align-items:center;gap:12px}
+.balance{background:#1b222d;border:1px solid #344153;border-radius:9px;padding:11px 14px;font-weight:800;color:#ffd16b;white-space:nowrap}
+.user{width:37px;height:37px;border-radius:9px;background:#303949;border:1px solid #435066;display:grid;place-items:center;font-weight:900}
+.content{max-width:1500px;margin:auto;padding:27px 29px 45px}
 .page{display:none}.page.active{display:block}
-h2{font-size:24px;margin:10px 0 7px}
-.desc{color:var(--muted);font-size:13px;margin:0 0 20px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
-.panel,.case{background:linear-gradient(145deg,#19222e,#11161e);border:1px solid var(--line);border-radius:14px;padding:16px}
-.case-art{height:140px;display:grid;place-items:center;border-radius:10px;background:radial-gradient(ellipse,#435267,#151b24);font-size:65px}
-.case h3{margin:15px 0 5px}.muted{color:var(--muted);font-size:12px}
-.case-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:18px}
-.price{color:#ffd16b;font-weight:bold}
-.primary{border:0;background:linear-gradient(100deg,#ffca52,#f18714);color:#1b1509;border-radius:9px;padding:12px 16px;font-weight:900}
-.primary:disabled{opacity:.4;cursor:not-allowed}
-.secondary{background:#283444;color:white;border:1px solid #39485c;border-radius:8px;padding:9px 12px}
-.upgrade-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px minmax(0,1fr);gap:13px;align-items:stretch}
-.pick{background:#141b25;border:1px solid var(--line);border-radius:14px;padding:14px;min-width:0}
-.pick h3{font-size:13px;letter-spacing:1px;margin:4px 0 14px}
-.weapon-list{display:grid;gap:9px;max-height:440px;overflow:auto}
-.weapon{width:100%;display:flex;align-items:center;gap:10px;text-align:left;color:white;background:#0e141c;border:1px solid #293646;border-radius:10px;padding:9px;min-width:0}
-.weapon:hover{border-color:#74849b}.weapon.selected{border-color:var(--gold);background:#2c2417}
-.art{width:76px;height:61px;flex-shrink:0;display:grid;place-items:center;border-radius:8px;background:linear-gradient(145deg,#354458,#141a22);border-bottom:3px solid var(--rarity);font-size:34px}
-.weapon-info{min-width:0}.weapon-info b{font-size:12px;display:block;overflow-wrap:anywhere}.weapon-info small{display:block;color:var(--muted);font-size:10px;margin-top:5px}.weapon-info strong{display:block;color:#ffd16b;font-size:12px;margin-top:6px}
-.center{background:linear-gradient(160deg,#1a2431,#111720);border:1px solid #354357;border-radius:14px;padding:18px 15px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-width:0;overflow:hidden}
-.chance-label{font-size:10px;color:#9ba8b9;letter-spacing:2px;font-weight:bold}
-.chance{font-size:49px;font-weight:1000;color:var(--gold);margin:9px 0}
-.chance small{font-size:21px}
-.bar{width:100%;height:7px;background:#303b4a;border-radius:9px;overflow:hidden;margin-bottom:22px}
-.bar span{display:block;width:0;height:100%;background:linear-gradient(90deg,#ec8613,#ffdc79);transition:width .25s}
-.machine{width:155px;height:100px;display:grid;place-items:center;background:#0d131b;border:1px solid #46566b;border-radius:14px;margin-bottom:16px;box-shadow:inset 0 0 25px #0008}
-.arrow{font-size:55px;color:#ffbc42;text-shadow:0 0 18px #f59e0b80}
-.machine.spinning .arrow{animation:spin .38s linear infinite}
-.machine.spinning{border-color:var(--gold);box-shadow:0 0 25px #f59e0b26}
+.eyebrow{font-size:10px;letter-spacing:2px;color:var(--orange);font-weight:800}
+h1{font-size:27px;letter-spacing:-.5px;margin:8px 0}
+h2{font-size:20px;margin:0 0 7px}
+h3{font-size:14px;margin:0}
+.subtitle{color:var(--muted);font-size:12px;line-height:1.6;margin:0}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:20px}
+.section-head p{margin:7px 0 0}
+.btn{border:1px solid #3a4658;background:#232c39;color:#e8edf5;border-radius:8px;padding:11px 15px;font-weight:700}
+.btn:hover{filter:brightness(1.12)}
+.btn-orange{background:linear-gradient(100deg,#ffc34d,#ee8b16);border:0;color:#1a1308;font-weight:900}
+.btn-green{background:#173b30;color:#78edbb;border:1px solid #28634d}
+.btn-red{background:#3a2027;color:#ff9aa5;border:1px solid #67323d}
+.btn-small{padding:8px 10px;font-size:11px}
+.hero{position:relative;overflow:hidden;display:grid;grid-template-columns:1.2fr .8fr;align-items:center;min-height:210px;padding:30px 34px;border:1px solid #49371f;border-radius:14px;background:radial-gradient(ellipse at 80% 45%,#49331a 0,transparent 46%),linear-gradient(110deg,#211b15,#151a22 65%,#171c24);margin-bottom:27px}
+.hero:after{content:"";position:absolute;width:270px;height:270px;border:1px solid #a9762b30;border-radius:50%;right:9%;top:-30px;box-shadow:0 0 0 28px #a9762b0a,0 0 0 60px #a9762b08;pointer-events:none}
+.hero h1{font-size:30px}
+.hero p{color:#a7b1c0;line-height:1.7;max-width:440px;font-size:13px}
+.hero-weapon{height:155px;display:flex;justify-content:center;align-items:center;position:relative;z-index:1}
+.hero-weapon img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 12px 18px #0009)}
+.hero-tag{display:inline-block;border:1px solid #74501e;background:#362818;color:#ffce77;border-radius:5px;padding:6px 9px;font-size:10px;font-weight:800;letter-spacing:1px}
+.case-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.case-card{border:1px solid var(--line);background:linear-gradient(145deg,#1a222e,#131820);border-radius:12px;overflow:hidden;transition:transform .18s,border-color .18s}
+.case-card:hover{transform:translateY(-3px);border-color:#65502e}
+.case-visual{height:150px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 70%,#394657,#1a222d 60%,#141a22)}
+.case-visual:before{content:"";position:absolute;width:130px;height:130px;border-radius:50%;border:1px solid #aebdce17;box-shadow:0 0 0 18px #aebdce08,0 0 0 36px #aebdce05}
+.case-visual img{width:88%;height:120px;object-fit:contain;position:relative;z-index:1;filter:drop-shadow(0 12px 13px #0009)}
+.case-visual .case-letter{font-size:65px;font-weight:1000;color:#e6ad45;text-shadow:0 6px 25px #f0a02044;position:relative}
+.case-body{padding:15px}
+.case-name{font-weight:800;font-size:14px}
+.case-desc{font-size:11px;color:var(--muted);margin-top:5px}
+.case-bottom{display:flex;align-items:center;justify-content:space-between;gap:7px;margin-top:16px}
+.price{color:#ffd16b;font-weight:900;white-space:nowrap}
+.price:before{content:"◈ ";color:#f3a72e}
+.block{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:17px}
+.block-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.tag{background:#232d3a;border:1px solid #344255;border-radius:6px;padding:6px 8px;font-size:10px;color:#b4c0d0}
+.roulette-box{padding:14px;border:1px solid #303b4b;border-radius:12px;background:#10151d;margin:20px 0}
+.roulette-label{display:flex;justify-content:space-between;color:#8896a8;font-size:11px;margin-bottom:13px}
+.roulette{height:142px;position:relative;overflow:hidden;border-radius:8px;background:#171e28;border:1px solid #293545}
+.roulette:before{content:"";position:absolute;z-index:2;left:50%;top:0;bottom:0;width:3px;background:#ffc14a;box-shadow:0 0 13px #ffb52e;transform:translateX(-50%)}
+.roulette:after{content:"";position:absolute;z-index:2;inset:0;background:linear-gradient(90deg,#10151d 0,transparent 14%,transparent 86%,#10151d 100%);pointer-events:none}
+.roulette-track{height:100%;display:flex;align-items:stretch;gap:8px;width:max-content;transform:translateX(0)}
+.roulette-item{width:132px;flex-shrink:0;background:linear-gradient(180deg,#26313e,#18202a);border-bottom:3px solid var(--rarity,#66788d);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:9px;gap:7px;overflow:hidden}
+.roulette-item img{width:112px;height:75px;object-fit:contain}
+.roulette-item span{font-size:10px;color:#d9e0ea;white-space:nowrap;max-width:120px;text-overflow:ellipsis;overflow:hidden}
+.roulette-item small{color:#ffcc72;font-size:10px}
+.open-row{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.open-row select{background:#171e28;border:1px solid #354255;border-radius:8px;color:white;padding:12px}
+.notice{font-size:11px;color:#778598;line-height:1.7;margin-top:17px}
+.drop-banner{display:none;border:1px solid #315d4a;background:#142a22;border-radius:10px;padding:14px;margin-top:14px;align-items:center;gap:14px}
+.drop-banner.show{display:flex}
+.drop-banner img{width:100px;height:65px;object-fit:contain}
+.drop-banner strong{display:block;color:#8df0be;margin-bottom:5px}
+.drop-banner span{font-size:12px;color:#bac9c2}
+.upgrade-grid{display:grid;grid-template-columns:minmax(0,1fr) 290px minmax(0,1fr);gap:13px;align-items:stretch}
+.selector{border:1px solid var(--line);background:#131922;border-radius:12px;padding:14px;min-width:0}
+.selector-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px;font-size:11px;font-weight:900;letter-spacing:1px}
+.selector-title span{color:var(--muted);font-weight:500;letter-spacing:0}
+.item-list{display:flex;flex-direction:column;gap:7px;max-height:440px;overflow:auto;padding-right:3px}
+.skin-option{display:flex;align-items:center;gap:10px;text-align:left;width:100%;border:1px solid #283343;border-radius:8px;padding:8px;background:#171e28;color:white;min-width:0}
+.skin-option:hover{border-color:#65758a}
+.skin-option.selected{border-color:#e6a83d;background:#2b2419}
+.skin-option img{width:83px;height:52px;object-fit:contain;flex-shrink:0}
+.skin-info{min-width:0}
+.skin-info b{display:block;font-size:11px;overflow-wrap:anywhere;line-height:1.4}
+.skin-info small{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+.skin-info strong{display:block;font-size:11px;color:#ffd16b;margin-top:5px}
+.upgrade-center{border:1px solid #3a4656;border-radius:12px;background:radial-gradient(ellipse at 50% 40%,#26303e,#151b24 68%);padding:18px 15px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-width:0}
+.chance-label{font-size:10px;letter-spacing:2px;color:#9ba8b9;font-weight:900}
+.chance-number{font-size:50px;font-weight:1000;color:#ffbd46;letter-spacing:-2px;margin:8px 0}
+.chance-number small{font-size:22px}
+.progress{height:5px;background:#303a49;border-radius:5px;width:100%;overflow:hidden;margin-bottom:20px}
+.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#e78318,#ffdb7a);transition:width .3s}
+.upgrade-visual{width:150px;height:100px;display:flex;align-items:center;justify-content:center;border:1px solid #36465a;background:#111721;border-radius:10px;margin-bottom:15px}
+.upgrade-visual img{width:125px;height:82px;object-fit:contain}
+.upgrade-visual .big-arrow{font-size:50px;color:#ffb838}
+.upgrade-visual.spinning .big-arrow{animation:spin .45s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.preview{font-size:11px;color:#a9b6c7;line-height:1.6;min-height:34px;overflow-wrap:anywhere}
-.upgrade-btn{width:100%;margin-top:12px}
-.result{display:none;width:100%;padding:11px;margin-top:12px;border-radius:8px;font-size:12px;font-weight:bold}
-.result.show{display:block}.result.win{background:#103b2d;color:#69e7b4}.result.lose{background:#41202a;color:#ff929e}
+.upgrade-caption{font-size:11px;color:#a4b0c0;line-height:1.6;min-height:36px;overflow-wrap:anywhere}
+.upgrade-center .btn{width:100%;margin-top:12px}
+.result{display:none;width:100%;padding:11px;border-radius:8px;margin-top:12px;font-size:11px;line-height:1.5}
+.result.show{display:block}.result.win{background:#163b2d;color:#80edb8}.result.lose{background:#40232a;color:#ff9ba6}
 .inventory-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.inv-card{background:#151d27;border:1px solid var(--line);border-radius:11px;padding:11px;min-width:0}
-.inv-card .art{width:100%;height:85px;margin-bottom:10px;font-size:40px}
-.inv-card b{font-size:12px;overflow-wrap:anywhere}
-.inv-card p{color:var(--muted);font-size:11px}
-.inv-actions{display:flex;gap:5px}.inv-actions button{flex:1;padding:8px 3px;font-size:10px}
-.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
-.filters input,.filters select{background:#151d27;border:1px solid #344154;color:white;border-radius:8px;padding:10px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:15px}
-.stat{background:#151d27;border:1px solid var(--line);border-radius:10px;padding:14px}
-.stat span{color:var(--muted);font-size:11px}.stat b{display:block;font-size:22px;margin-top:7px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.line{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);font-size:12px}
-.empty{padding:25px 12px;text-align:center;border:1px dashed #344154;border-radius:10px;color:var(--muted);font-size:12px;line-height:1.7}
-.notice{margin-top:18px;padding:12px;background:#131a23;border:1px solid var(--line);border-radius:9px;color:var(--muted);font-size:11px;line-height:1.6}
-footer{text-align:center;color:#6e7a8c;font-size:11px;padding:28px 0 10px}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#263343;border:1px solid #526279;border-radius:9px;padding:12px 18px;display:none;z-index:5;max-width:90%;font-size:13px}
-@media(max-width:850px){.upgrade-layout{grid-template-columns:1fr 1fr}.center{grid-column:1/-1;grid-row:2;min-height:300px}.inventory-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:560px){.wrap{padding:12px}.grid{grid-template-columns:1fr}.upgrade-layout{grid-template-columns:1fr}.center{grid-column:auto;grid-row:auto}.inventory-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}h1{font-size:15px}.tab{padding:10px 11px;font-size:12px}.chance{font-size:43px}}
+.inventory-card{border:1px solid var(--line);border-radius:10px;background:#171e28;padding:12px;min-width:0;border-top:2px solid var(--rarity)}
+.inventory-card img{width:100%;height:90px;object-fit:contain;margin-bottom:8px}
+.inventory-card b{font-size:11px;line-height:1.5;display:block;min-height:33px;overflow-wrap:anywhere}
+.inventory-card .rarity{color:var(--muted);font-size:10px;margin:5px 0 11px}
+.card-actions{display:flex;gap:6px}.card-actions button{flex:1;min-width:0}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.toolbar input,.toolbar select{min-width:130px;background:#151c26;color:white;border:1px solid #344153;border-radius:8px;padding:10px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.stat{border:1px solid var(--line);background:var(--panel);padding:17px;border-radius:10px}
+.stat span{font-size:11px;color:var(--muted)}.stat b{display:block;font-size:24px;margin-top:9px}
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.profile-grid input{width:100%;padding:11px;border:1px solid #354153;border-radius:8px;background:#0f141c;color:white;margin:14px 0}
+.history-line{font-size:11px;padding:11px 0;border-bottom:1px solid var(--line);color:#b9c3d0;line-height:1.5}
+.empty{padding:24px 10px;border:1px dashed #354153;border-radius:8px;text-align:center;color:var(--muted);font-size:12px;line-height:1.8}
+.toast{position:fixed;z-index:20;bottom:22px;left:50%;transform:translateX(-50%);background:#222c3a;border:1px solid #47566b;color:white;padding:13px 18px;border-radius:9px;display:none;max-width:90%;box-shadow:0 8px 30px #0008}
+footer{text-align:center;color:#627083;font-size:10px;padding:30px 0 0}
+.mobile-nav{display:none}
+@media(max-width:1050px){.upgrade-grid{grid-template-columns:1fr 1fr}.upgrade-center{grid-column:1/-1;grid-row:2;min-height:300px}.case-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.inventory-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.sidebar{display:none}.main{margin-left:0}.topbar{height:62px;padding:0 14px}.mobile-brand{display:block}.top-status{display:none}.content{padding:19px 13px 35px}.hero{padding:22px 18px;grid-template-columns:1fr}.hero h1{font-size:25px}.hero-weapon{height:100px}.case-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.case-visual{height:110px}.case-visual img{height:90px}.case-body{padding:11px}.case-bottom{align-items:flex-start;flex-direction:column}.case-bottom button{width:100%}.upgrade-grid{grid-template-columns:1fr}.upgrade-center{grid-column:auto;grid-row:auto}.inventory-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,1fr)}.profile-grid{grid-template-columns:1fr}.section-head{align-items:flex-start;flex-direction:column}.roulette-item{width:112px}.roulette-item img{width:96px}.mobile-nav{position:sticky;bottom:0;z-index:10;display:flex;background:#10151d;border-top:1px solid var(--line);justify-content:space-around;padding:7px 3px env(safe-area-inset-bottom)}.mobile-nav button{border:0;background:none;color:#8f9daf;font-size:10px;padding:6px 5px}.mobile-nav button.active{color:#ffbf4b}.mobile-nav span{display:block;font-size:17px;margin-bottom:4px}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header>
- <div class="logo"><div class="logo-icon">CS2</div><div><h1>CS2 <span style="color:#ffb52e">SKINS</span></h1><div class="subtitle">Открывай. Улучшай. Собирай коллекцию.</div></div></div>
- <div class="coins">◈ <span id="coins">1000</span></div>
-</header>
-<nav>
- <button class="tab active" data-page="cases">📦 Кейсы</button>
- <button class="tab" data-page="upgrade">⚡ Апгрейд</button>
- <button class="tab" data-page="inventory">🎒 Инвентарь</button>
- <button class="tab" data-page="profile">👤 Профиль</button>
- <button class="secondary" onclick="daily()">🎁 Бонус +200</button>
-</nav>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="brand-mark">CS2</div><div><div class="brand-name">CS2 <span>SKINS</span></div><div class="brand-sub">CASES · UPGRADE</div></div></div>
+  <div class="nav-title">ИГРОВОЕ МЕНЮ</div>
+  <button class="nav active" data-page="cases"><span class="nav-icon">▦</span> Кейсы</button>
+  <button class="nav" data-page="upgrade"><span class="nav-icon">↗</span> Апгрейд</button>
+  <button class="nav" data-page="inventory"><span class="nav-icon">▤</span> Инвентарь</button>
+  <div class="nav-title">АККАУНТ</div>
+  <button class="nav" data-page="profile"><span class="nav-icon">◉</span> Профиль</button>
+  <button class="nav" onclick="dailyBonus()"><span class="nav-icon">✧</span> Ежедневный бонус</button>
+  <div class="side-bottom">CS2 SKINS<br>Демо-версия с виртуальными монетами.<br>Не связана с Valve.</div>
+</aside>
 
-<section class="page active" id="cases">
- <h2>Открытие кейсов</h2><p class="desc">Открывай кейсы и собирай виртуальные скины.</p>
- <div class="grid" id="casesGrid"></div>
- <div class="notice">Все монеты и предметы виртуальные. Реальные скины, платежи и вывод средств отсутствуют.</div>
-</section>
+<main class="main">
+  <header class="topbar">
+    <div class="mobile-brand">CS2 <span style="color:var(--orange)">SKINS</span></div>
+    <div class="top-status">СИМУЛЯТОР СКИНОВ COUNTER-STRIKE 2</div>
+    <div class="top-right"><div class="balance">◈ <span id="balance">1 000</span></div><div class="user" id="userAvatar">P</div></div>
+  </header>
 
-<section class="page" id="upgrade">
- <h2>Апгрейдер</h2><p class="desc">Выбери предмет слева и цель справа. Чем дороже цель, тем ниже шанс.</p>
- <div class="upgrade-layout">
-  <div class="pick"><h3>① ТВОЙ СКИН</h3><div class="weapon-list" id="sourceList"></div></div>
-  <div class="center">
-   <div class="chance-label">ШАНС УЛУЧШЕНИЯ</div>
-   <div class="chance" id="chance">0<small>%</small></div>
-   <div class="bar"><span id="barFill"></span></div>
-   <div class="machine" id="machine"><div class="arrow">➜</div></div>
-   <div class="preview" id="preview">Выбери предмет и цель</div>
-   <button class="primary upgrade-btn" id="upgradeBtn" onclick="upgrade()" disabled>⚡ УЛУЧШИТЬ</button>
-   <div class="result" id="result"></div>
-   <div class="muted" style="margin-top:12px;line-height:1.5">Стрелка вращается во время попытки.</div>
+  <div class="content">
+    <section class="page active" id="page-cases">
+      <div class="hero">
+        <div><span class="hero-tag">CASE OPENING SIMULATOR</span><h1>Открой свой следующий дроп</h1><p>Выбирай кейсы, крути рулетку и собирай коллекцию любимых скинов CS2. Все предметы и монеты виртуальные.</p><button class="btn btn-orange" onclick="document.getElementById('caseGrid').scrollIntoView({behavior:'smooth'})">ВЫБРАТЬ КЕЙС ↓</button></div>
+        <div class="hero-weapon" id="heroWeapon"><div class="case-letter">CS2</div></div>
+      </div>
+      <div class="section-head"><div><div class="eyebrow">КАТАЛОГ</div><h2>Популярные кейсы</h2><p class="subtitle">Открывай кейсы за игровую валюту</p></div><span class="tag">ВИРТУАЛЬНЫЕ МОНЕТЫ</span></div>
+      <div class="case-grid" id="caseGrid"></div>
+      <div class="notice">Вероятности в симуляторе условные. Это не настоящий сервис кейсов, не использует реальные деньги и не выдаёт предметы в Steam.</div>
+    </section>
+
+    <section class="page" id="page-open">
+      <div class="section-head"><div><div class="eyebrow">CASE OPENING</div><h1 id="openTitle">Открытие кейса</h1><p class="subtitle" id="openDescription">Рулетка выпадения скинов</p></div><button class="btn" onclick="goPage('cases')">← Все кейсы</button></div>
+      <div class="block">
+        <div class="block-head"><h3>РУЛЕТКА</h3><span class="tag" id="openPrice">◈ 100</span></div>
+        <div class="roulette-box"><div class="roulette-label"><span>СЛУЧАЙНЫЕ ПРЕДМЕТЫ</span><span id="rouletteStatus">ГОТОВО К ЗАПУСКУ</span></div><div class="roulette" id="roulette"><div class="roulette-track" id="rouletteTrack"></div></div></div>
+        <div class="open-row"><select id="openCount"><option value="1">1 кейс</option><option value="2">2 кейса</option><option value="3">3 кейса</option></select><button class="btn btn-orange" id="openButton" onclick="openCase()">▶ ОТКРЫТЬ КЕЙС</button></div>
+        <div class="drop-banner" id="dropBanner"><img id="dropImage" alt="Полученный скин"><div><strong id="dropName">Предмет получен!</strong><span id="dropDetails"></span><div style="margin-top:10px"><button class="btn btn-small" onclick="goPage('inventory')">В инвентарь</button></div></div></div>
+      </div>
+      <div class="notice">Рулетка — визуальная анимация. Результат выбирается случайно из виртуального каталога предметов.</div>
+    </section>
+
+    <section class="page" id="page-upgrade">
+      <div class="section-head"><div><div class="eyebrow">SKIN UPGRADE</div><h1>Апгрейд скинов</h1><p class="subtitle">Выбери свой предмет и более дорогую цель</p></div><span class="tag">ВИРТУАЛЬНЫЙ РЕЖИМ</span></div>
+      <div class="upgrade-grid">
+        <div class="selector"><div class="selector-title">01 / ТВОЙ СКИН <span id="sourceCount">0 предметов</span></div><div class="item-list" id="sourceList"></div></div>
+        <div class="upgrade-center">
+          <div class="chance-label">ШАНС УЛУЧШЕНИЯ</div><div class="chance-number" id="chanceValue">0<small>%</small></div>
+          <div class="progress"><span id="chanceBar"></span></div>
+          <div class="upgrade-visual" id="upgradeVisual"><div class="big-arrow">➜</div></div>
+          <div class="upgrade-caption" id="upgradeCaption">Выбери предмет слева и цель справа</div>
+          <button class="btn btn-orange" id="upgradeButton" onclick="doUpgrade()" disabled>⚡ УЛУЧШИТЬ</button>
+          <div class="result" id="upgradeResult"></div>
+          <div class="notice">При неудаче исходный предмет теряется. Шанс рассчитывается по стоимости цели.</div>
+        </div>
+        <div class="selector"><div class="selector-title">02 / ЦЕЛЬ <span id="targetCount">0 предметов</span></div><div class="item-list" id="targetList"></div></div>
+      </div>
+    </section>
+
+    <section class="page" id="page-inventory">
+      <div class="section-head"><div><div class="eyebrow">YOUR COLLECTION</div><h1>Инвентарь</h1><p class="subtitle">Предметы, которые ты получил в симуляторе</p></div></div>
+      <div class="toolbar"><input id="searchInput" placeholder="Поиск предмета..." oninput="renderInventory()"><select id="rarityFilter" onchange="renderInventory()"><option value="all">Все редкости</option><option>Consumer Grade</option><option>Industrial Grade</option><option>Mil-Spec</option><option>Restricted</option><option>Classified</option><option>Covert</option></select><select id="sortFilter" onchange="renderInventory()"><option value="high">Сначала дорогие</option><option value="low">Сначала дешёвые</option></select></div>
+      <div class="inventory-grid" id="inventoryGrid"></div>
+      <div class="notice">Продажа предмета добавляет виртуальные монеты. Эти монеты нельзя вывести или обменять на деньги.</div>
+    </section>
+
+    <section class="page" id="page-profile">
+      <div class="section-head"><div><div class="eyebrow">PLAYER ACCOUNT</div><h1>Профиль игрока</h1><p class="subtitle">Твоя статистика и сохранение</p></div></div>
+      <div class="stats"><div class="stat"><span>Предметов в инвентаре</span><b id="statItems">0</b></div><div class="stat"><span>Кейсов открыто</span><b id="statOpened">0</b></div><div class="stat"><span>Успешных апгрейдов</span><b id="statWins">0</b></div><div class="stat"><span>Уровень</span><b id="statLevel">1</b></div></div>
+      <div class="profile-grid">
+        <div class="block"><h3>ПРОФИЛЬ</h3><input id="playerName" maxlength="20" placeholder="Имя игрока" onchange="saveName()"><p class="subtitle" id="xpText">0 XP</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px"><button class="btn" onclick="exportSave()">Скачать сохранение</button><button class="btn" onclick="document.getElementById('importSave').click()">Загрузить сохранение</button><input id="importSave" type="file" accept=".json" hidden onchange="importSaveFile(event)"><button class="btn btn-red" onclick="resetGame()">Сбросить прогресс</button></div></div>
+        <div class="block"><h3>ПОСЛЕДНИЕ СОБЫТИЯ</h3><div id="historyList" class="subtitle" style="margin-top:12px">Пока событий нет.</div></div>
+      </div>
+    </section>
+    <footer>CS2 SKINS · Независимый фанатский симулятор · Не связан с Valve Corporation</footer>
   </div>
-  <div class="pick"><h3>② ЖЕЛАЕМЫЙ СКИН</h3><div class="weapon-list" id="targetList"></div></div>
- </div>
- <div class="notice">При успехе ты получаешь выбранную цель. При неудаче исходный предмет теряется. Это игровой симулятор, не настоящий CS2.</div>
-</section>
-
-<section class="page" id="inventory">
- <h2>Инвентарь</h2><p class="desc">Управляй своей коллекцией.</p>
- <div class="filters">
-  <select id="filter" onchange="renderInventory()"><option value="all">Все редкости</option><option>Consumer</option><option>Industrial</option><option>Mil-Spec</option><option>Restricted</option><option>Classified</option><option>Covert</option><option>Rare</option></select>
-  <select id="sort" onchange="renderInventory()"><option value="desc">Дорогие сначала</option><option value="asc">Дешёвые сначала</option></select>
-  <input id="search" placeholder="Поиск скина..." oninput="renderInventory()">
- </div>
- <div class="inventory-grid" id="inventoryGrid"></div>
-</section>
-
-<section class="page" id="profile">
- <h2>Профиль</h2><p class="desc">Твоя статистика и сохранение.</p>
- <div class="stats">
-  <div class="stat"><span>Предметов</span><b id="statItems">0</b></div>
-  <div class="stat"><span>Кейсов открыто</span><b id="statCases">0</b></div>
-  <div class="stat"><span>Успешных апгрейдов</span><b id="statWins">0</b></div>
-  <div class="stat"><span>Уровень</span><b id="statLevel">1</b></div>
- </div>
- <div class="two">
-  <div class="panel"><h3>Игрок</h3><input id="playerName" value="Player" maxlength="20" style="padding:11px;width:100%;background:#0d131b;color:white;border:1px solid #344154;border-radius:8px" onchange="saveName()"><p class="muted" id="xpText">0 XP</p><button class="secondary" onclick="exportSave()">Скачать сохранение</button> <button class="secondary" onclick="document.getElementById('importFile').click()">Импорт</button><input type="file" id="importFile" hidden accept=".json" onchange="importSave(event)"><button class="secondary" onclick="resetGame()">Сбросить</button></div>
-  <div class="panel"><h3>Последние события</h3><div id="history" class="muted">Пока событий нет.</div></div>
- </div>
-</section>
-
-<footer>CS2 SKINS — фанатский симулятор. Не связан с Valve. Все предметы и монеты виртуальные.</footer>
+  <nav class="mobile-nav"><button data-page="cases" class="active"><span>▦</span>Кейсы</button><button data-page="upgrade"><span>↗</span>Апгрейд</button><button data-page="inventory"><span>▤</span>Инвентарь</button><button data-page="profile"><span>◉</span>Профиль</button></nav>
+</main>
 </div>
 <div class="toast" id="toast"></div>
+
 <script>
-const items=[
-['AK-47 | Slate','🔫','Restricted',180,'#778899'],
-['AK-47 | Neon Rider','🔫','Covert',1250,'#e64cce'],
-['AWP | Asiimov','🎯','Covert',1100,'#ef7c37'],
-['Karambit | Doppler','🔪','Rare',4500,'#ba78ff'],
-['M4A1-S | Printstream','🔫','Covert',980,'#d8d9e8'],
-['Desert Eagle | Blaze','🔫','Classified',720,'#ee9b36'],
-['USP-S | Kill Confirmed','🔫','Covert',840,'#df454d'],
-['Glock-18 | Water Elemental','🔫','Classified',390,'#e94c68'],
-['AWP | Wildfire','🎯','Covert',760,'#ff713f'],
-['M4A4 | Neo-Noir','🔫','Covert',680,'#d75bb9'],
-['P250 | See Ya Later','🔫','Classified',260,'#e5a744'],
-['FAMAS | Mecha Industries','🔫','Restricted',145,'#d5dce8'],
-['MAC-10 | Disco Tech','🔫','Restricted',125,'#c85ddd'],
-['P90 | Traction','🔫','Mil-Spec',45,'#6b91c8'],
-['Nova | Wild Six','🔫','Mil-Spec',32,'#6596bb'],
-['MP7 | Cirrus','🔫','Industrial',12,'#75a4bd'],
-['UMP-45 | Roadblock','🔫','Consumer',5,'#9aa6b5']
-].map((x,i)=>({id:i,name:x[0],icon:x[1],rarity:x[2],value:x[3],color:x[4]}));
-const rank={Consumer:1,Industrial:2,'Mil-Spec':3,Restricted:4,Classified:5,Covert:6,Rare:7};
-const cases=[
-{id:0,name:'Starter Case',price:100,icon:'📦',desc:'Начни собирать коллекцию',rarities:['Consumer','Industrial','Mil-Spec','Restricted']},
-{id:1,name:'Pro Case',price:300,icon:'🧰',desc:'Шанс на более ценные скины',rarities:['Mil-Spec','Restricted','Classified','Covert']},
-{id:2,name:'Elite Case',price:600,icon:'💎',desc:'Редкие предметы для коллекции',rarities:['Restricted','Classified','Covert','Rare']}
+const fallbackSkins=[
+ {name:'AK-47 | Slate',weapon:'AK-47',rarity:'Restricted',value:180,image:''},
+ {name:'AK-47 | Neon Rider',weapon:'AK-47',rarity:'Covert',value:1250,image:''},
+ {name:'AWP | Asiimov',weapon:'AWP',rarity:'Covert',value:1100,image:''},
+ {name:'M4A1-S | Printstream',weapon:'M4A1-S',rarity:'Covert',value:980,image:''},
+ {name:'Desert Eagle | Blaze',weapon:'Desert Eagle',rarity:'Classified',value:720,image:''},
+ {name:'USP-S | Kill Confirmed',weapon:'USP-S',rarity:'Covert',value:840,image:''},
+ {name:'Glock-18 | Water Elemental',weapon:'Glock-18',rarity:'Classified',value:390,image:''},
+ {name:'AWP | Wildfire',weapon:'AWP',rarity:'Covert',value:760,image:''},
+ {name:'M4A4 | Neo-Noir',weapon:'M4A4',rarity:'Covert',value:680,image:''},
+ {name:'P250 | See Ya Later',weapon:'P250',rarity:'Classified',value:260,image:''},
+ {name:'FAMAS | Mecha Industries',weapon:'FAMAS',rarity:'Restricted',value:145,image:''},
+ {name:'MAC-10 | Disco Tech',weapon:'MAC-10',rarity:'Restricted',value:125,image:''},
+ {name:'P90 | Traction',weapon:'P90',rarity:'Mil-Spec',value:45,image:''},
+ {name:'Nova | Wild Six',weapon:'Nova',rarity:'Mil-Spec',value:32,image:''},
+ {name:'MP7 | Cirrus',weapon:'MP7',rarity:'Industrial Grade',value:12,image:''},
+ {name:'UMP-45 | Roadblock',weapon:'UMP-45',rarity:'Consumer Grade',value:5,image:''}
 ];
-const initial=()=>({coins:1000,inventory:[],opened:0,wins:0,xp:0,name:'Player',daily:'',history:[]});
+const rarityColors={'Consumer Grade':'#8796a8','Industrial Grade':'#8cb9c9','Mil-Spec':'#668af4','Restricted':'#a66af0','Classified':'#d955d7','Covert':'#e45159','Extraordinary':'#e6b94f','Rare':'#e6b94f'};
+const rarityOrder={'Consumer Grade':1,'Industrial Grade':2,'Mil-Spec':3,'Restricted':4,'Classified':5,'Covert':6,'Extraordinary':7,'Rare':7};
+const caseDefs=[
+ {id:'starter',name:'STARTER CASE',desc:'Базовая коллекция',price:100,rarities:['Consumer Grade','Industrial Grade','Mil-Spec','Restricted'],letter:'S'},
+ {id:'pro',name:'PRO CASE',desc:'Больше редких предметов',price:300,rarities:['Mil-Spec','Restricted','Classified','Covert'],letter:'P'},
+ {id:'elite',name:'ELITE CASE',desc:'Для охотников за дропом',price:600,rarities:['Restricted','Classified','Covert'],letter:'E'},
+ {id:'sniper',name:'SNIPER CASE',desc:'Коллекция снайперских винтовок',price:450,weapon:'AWP',rarities:['Mil-Spec','Restricted','Classified','Covert'],letter:'A'},
+ {id:'rifle',name:'RIFLE CASE',desc:'Популярные винтовки',price:500,weapons:['AK-47','M4A1-S','M4A4','FAMAS'],rarities:['Restricted','Classified','Covert'],letter:'R'},
+ {id:'premium',name:'PREMIUM CASE',desc:'Высокая стоимость предметов',price:1000,rarities:['Classified','Covert','Extraordinary','Rare'],letter:'★'}
+];
+const initialState=()=>({coins:1000,inventory:[],opened:0,wins:0,xp:0,name:'Player',daily:'',history:[]});
 let state;
-try{state={...initial(),...JSON.parse(localStorage.getItem('cs2-skins-save')||'{}')}}catch(e){state=initial()}
-let source=null,target=null,busy=false;
-const money=n=>Math.round(n).toLocaleString('ru-RU');
-function persist(){localStorage.setItem('cs2-skins-save',JSON.stringify(state));renderAll()}
-function notify(s){let t=document.getElementById('toast');t.textContent=s;t.style.display='block';clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.style.display='none',2400)}
-function log(s){state.history.unshift(new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})+' — '+s);state.history=state.history.slice(0,6)}
-function makeItem(base){return {...base,uid:Date.now().toString(36)+Math.random().toString(36).slice(2,7)}}
-function art(i){return `<div class="art" style="--rarity:${i.color}">${i.icon}</div>`}
-function weapon(i,type){return `<button class="weapon ${((type==='source'&&source===i.uid)||(type==='target'&&target===i.id))?'selected':''}" onclick="select('${type}','${type==='source'?i.uid:i.id}')">${art(i)}<div class="weapon-info"><b>${i.name}</b><small>${i.rarity}</small><strong>◈ ${money(i.value)}</strong></div></button>`}
-function renderCases(){document.getElementById('casesGrid').innerHTML=cases.map(c=>`<div class="case"><div class="case-art">${c.icon}</div><h3>${c.name}</h3><div class="muted">${c.desc}</div><div class="case-bottom"><span class="price">◈ ${c.price}</span><button class="primary" onclick="openCase(${c.id})">ОТКРЫТЬ</button></div></div>`).join('')}
-function openCase(id){let c=cases.find(x=>x.id===id);if(state.coins<c.price){notify('Недостаточно монет');return}state.coins-=c.price;state.opened++;let pool=items.filter(i=>c.rarities.includes(i.rarity));let weights=pool.map(i=>Math.pow(1/rank[i.rarity],1.6));let r=Math.random()*weights.reduce((a,b)=>a+b,0),chosen=pool[0];for(let n=0;n<pool.length;n++){r-=weights[n];if(r<=0){chosen=pool[n];break}}state.inventory.unshift(makeItem(chosen));state.xp+=20;log('Выпал '+chosen.name);persist();notify('Получен '+chosen.name)}
-function daily(){let d=new Date().toDateString();if(state.daily===d){notify('Бонус уже получен сегодня');return}state.daily=d;state.coins+=200;log('Ежедневный бонус +200');persist();notify('Получено +200 монет')}
-function select(type,id){if(busy)return;if(type==='source'){source=id;target=null}else target=Number(id);renderUpgrade()}
-function getSource(){return state.inventory.find(i=>i.uid===source)}
-function getTarget(){return items.find(i=>i.id===target)}
-function getTargets(){let s=getSource();return s?items.filter(i=>i.value>s.value).sort((a,b)=>a.value-b.value).slice(0,12):[]}
-function getChance(){let s=getSource(),t=getTarget();if(!s||!t||t.value<=s.value)return 0;return Math.max(1,Math.min(95,Math.floor(s.value/t.value*90)))}
-function renderUpgrade(){
- let sources=state.inventory.slice().sort((a,b)=>b.value-a.value);
- document.getElementById('sourceList').innerHTML=sources.length?sources.map(i=>weapon(i,'source')).join(''):'<div class="empty">Инвентарь пуст.<br>Сначала открой кейс.</div>';
- let targets=getTargets();
- document.getElementById('targetList').innerHTML=targets.length?targets.map(i=>weapon(i,'target')).join(''):'<div class="empty">Сначала выбери свой предмет слева.<br>Здесь появятся более дорогие цели.</div>';
- let c=getChance(),s=getSource(),t=getTarget();
- document.getElementById('chance').innerHTML=c+'<small>%</small>';
- document.getElementById('barFill').style.width=c+'%';
- document.getElementById('preview').textContent=s&&t?s.name+'  ➜  '+t.name:'Выбери предмет и цель';
- document.getElementById('upgradeBtn').disabled=busy||!s||!t||t.value<=s.value;
- document.getElementById('upgradeBtn').textContent=busy?'⟳ ПРОВЕРКА…':'⚡ УЛУЧШИТЬ';
-}
-function upgrade(){
- if(busy)return;
- let idx=state.inventory.findIndex(i=>i.uid===source),s=state.inventory[idx],t=getTarget(),c=getChance();
- if(idx<0||!t||!c){notify('Сначала выбери два предмета');return}
- busy=true;document.getElementById('machine').classList.add('spinning');
- document.getElementById('result').className='result';renderUpgrade();
- setTimeout(()=>{
-  let win=Math.random()*100<c;
-  document.getElementById('machine').classList.remove('spinning');busy=false;
-  let result=document.getElementById('result');
-  result.className='result show '+(win?'win':'lose');
-  if(win){state.inventory.splice(idx,1,makeItem(t));state.wins++;state.xp+=40;log('Успешный апгрейд: '+t.name);result.textContent='✓ УСПЕХ! Получен '+t.name;notify('Апгрейд успешен!')}
-  else{state.inventory.splice(idx,1);log('Неудачный апгрейд — '+s.name+' потерян');result.textContent='✕ НЕУДАЧА. Предмет потерян';notify('Неудача! Попробуй ещё раз')}
-  source=null;target=null;persist();
- },2200)
-}
-function renderInventory(){
- let f=document.getElementById('filter').value,q=document.getElementById('search').value.toLowerCase(),sort=document.getElementById('sort').value;
- let arr=state.inventory.filter(i=>(f==='all'||i.rarity===f)&&i.name.toLowerCase().includes(q));
- arr.sort((a,b)=>sort==='desc'?b.value-a.value:a.value-b.value);
- document.getElementById('inventoryGrid').innerHTML=arr.length?arr.map(i=>`<div class="inv-card" style="border-top:2px solid ${i.color}">${art(i)}<b>${i.name}</b><p>${i.rarity} · ◈ ${money(i.value)}</p><div class="inv-actions"><button class="secondary" onclick="goUpgrade('${i.uid}')">Апгрейд</button><button class="secondary" onclick="sell('${i.uid}')">Продать</button></div></div>`).join(''):'<div class="empty" style="grid-column:1/-1">Нет предметов. Открой кейс!</div>'
-}
-function goUpgrade(uid){source=uid;target=null;document.querySelector('[data-page="upgrade"]').click()}
-function sell(uid){let i=state.inventory.find(x=>x.uid===uid);if(!i)return;let p=Math.floor(i.value*.7);state.inventory=state.inventory.filter(x=>x.uid!==uid);state.coins+=p;if(source===uid)source=null;log('Продан '+i.name+' за '+p+' монет');state.xp+=10;persist();notify('Продано за ◈ '+p)}
-function renderProfile(){document.getElementById('statItems').textContent=state.inventory.length;document.getElementById('statCases').textContent=state.opened;document.getElementById('statWins').textContent=state.wins;document.getElementById('statLevel').textContent=Math.floor(state.xp/250)+1;document.getElementById('xpText').textContent=state.xp+' XP';document.getElementById('playerName').value=state.name||'Player';document.getElementById('history').innerHTML=state.history.length?state.history.map(x=>`<div class="line">${x}</div>`).join(''):'Пока событий нет.'}
-function saveName(){state.name=document.getElementById('playerName').value.trim()||'Player';persist();notify('Имя сохранено')}
-function renderAll(){document.getElementById('coins').textContent=money(state.coins);renderCases();renderUpgrade();renderInventory();renderProfile()}
-document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===b.dataset.page));if(b.dataset.page==='upgrade')renderUpgrade()}));
-function exportSave(){let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='cs2-skins-save.json';a.click();URL.revokeObjectURL(url)}
-function importSave(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{state={...initial(),...JSON.parse(r.result)};persist();notify('Сохранение загружено')}catch(x){notify('Ошибка файла')}};r.readAsText(f)}
-function resetGame(){if(!confirm('Сбросить весь прогресс?'))return;state=initial();source=null;target=null;persist();notify('Прогресс сброшен')}
-renderAll();
+try{state={...initialState(),...JSON.parse(localStorage.getItem('cs2skins_v3')||'{}')}}catch(e){state=initialState()}
+if(!Array.isArray(state.inventory))state.inventory=[];
+if(!Array.isArray(state.history))state.history=[];
+let skins=fallbackSkins.map((s,i)=>({...s,id:i,color:rarityColors[s.rarity]||'#8796a8'}));
+let selectedCase=caseDefs[0],selectedSource=null,selectedTarget=null,opening=false,upgrading=false;
+const fmt=n=>Math.round(n).toLocaleString('ru-RU');
+const rarityColor=s=>rarityColors[s]||'#8796a8';
+function persist(){try{localStorage.setItem('cs2skins_v3',JSON.stringify(state))}catch(e){}renderAll()}
+function toast(s){const el=document.getElementById('toast');el.textContent=s;el.style.display='block';clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el.style.display='none',2600)}
+function log(s){state.history.unshift(new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})+' — '+s);state.history=state.history.slice(0,8)}
+function makeOwned(s){return {...s,uid:Date.now().toString(36)+Math.random().toString(36).slice(2,8)}}
+function img(s,cls=''){return s.image?`<img class="${cls}" src="${s.image}" alt="${escapeHtml(s.name)}" loading="lazy" onerror="this.style.display='none'">`:`<div class="case-letter ${cls}" style="font-size:25px;color:${s.color||rarityColor(s.rarity)};text-align:center">${escapeHtml(s.weapon||s.name.split(' | ')[0])}</div>`}
+function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function skinCard(s,kind){let key=kind==='source'?s.uid:s.id;let selected=kind==='source'?selectedSource===key:selectedTarget===key;return `<button class="skin-option ${selected?'selected':''}" onclick="chooseSkin('${kind}','${key}')">${img(s)}<div class="skin-info"><b>${escapeHtml(s.name)}</b><small>${escapeHtml(s.rarity)}</small><strong>◈ ${fmt(s.value)}</strong></div></button>`}
+function goPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+name));document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===name));if(name==='upgrade')renderUpgrade();if(name==='inventory')renderInventory();if(name==='profile')renderProfile();window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>goPage(b.dataset.page)));
+function renderCases(){document.getElementById('caseGrid').innerHTML=caseDefs.map(c=>{let preview=skins.find(s=>(!c.weapon||s.weapon===c.weapon)&&(!c.weapons||c.weapons.includes(s.weapon)))||skins[0];return `<article class="case-card"><div class="case-visual">${preview.image?`<img src="${preview.image}" alt="${escapeHtml(preview.name)}" loading="lazy" onerror="this.style.display='none'">`:`<div class="case-letter">${c.letter}</div>`}</div><div class="case-body"><div class="case-name">${c.name}</div><div class="case-desc">${c.desc}</div><div class="case-bottom"><span class="price">${fmt(c.price)}</span><button class="btn btn-orange btn-small" onclick="selectCase('${c.id}')">ОТКРЫТЬ</button></div></div></article>`}).join('')}
+function selectCase(id){selectedCase=caseDefs.find(c=>c.id===id)||caseDefs[0];document.getElementById('openTitle').textContent=selectedCase.name;document.getElementById('openDescription').textContent=selectedCase.desc;document.getElementById('openPrice').textContent='◈ '+fmt(selectedCase.price);document.getElementById('dropBanner').classList.remove('show');document.getElementById('rouletteStatus').textContent='ГОТОВО К ЗАПУСКУ';buildRoulette();goPage('open')}
+function casePool(c){let pool=skins.filter(s=>(!c.rarities||c.rarities.includes(s.rarity))&&(!c.weapon||s.weapon===c.weapon)&&(!c.weapons||c.weapons.includes(s.weapon)));return pool.length?pool:skins}
+function weightedPick(pool){let weights=pool.map(s=>1/Math.pow(rarityOrder[s.rarity]||2,1.65));let r=Math.random()*weights.reduce((a,b)=>a+b,0);for(let i=0;i<pool.length;i++){r-=weights[i];if(r<=0)return pool[i]}return pool[0]}
+function rouletteTile(s){return `<div class="roulette-item" style="--rarity:${s.color||rarityColor(s.rarity)}">${s.image?`<img src="${s.image}" alt="" onerror="this.style.opacity='.12'">`:`<div style="font-weight:900;color:${s.color||rarityColor(s.rarity)}">${escapeHtml(s.weapon||s.name.split(' | ')[0])}</div>`}<span>${escapeHtml(s.name)}</span><small>◈ ${fmt(s.value)}</small></div>`}
+function buildRoulette(){let pool=casePool(selectedCase);let track=document.getElementById('rouletteTrack');track.style.transition='none';track.style.transform='translateX(0)';track.innerHTML=Array.from({length:45},()=>rouletteTile(weightedPick(pool))).join('')}
+function openCase(){if(opening)return;let count=Number(document.getElementById('openCount').value)||1;let cost=selectedCase.price*count;if(state.coins<cost){toast('Недостаточно виртуальных монет');return}opening=true;state.coins-=cost;document.getElementById('openButton').disabled=true;document.getElementById('rouletteStatus').textContent='РУЛЕТКА КРУТИТСЯ…';document.getElementById('dropBanner').classList.remove('show');let pool=casePool(selectedCase),winners=[];for(let n=0;n<count;n++)winners.push(makeOwned(weightedPick(pool)));let winner=winners[winners.length-1];let all=Array.from({length:45},()=>weightedPick(pool));let winIndex=39;all[winIndex]=winner;let track=document.getElementById('rouletteTrack');track.innerHTML=all.map(rouletteTile).join('');track.style.transition='none';track.style.transform='translateX(0)';track.offsetHeight;let tileWidth=140;let offset=(winIndex*tileWidth+66)-(document.getElementById('roulette').clientWidth/2);track.style.transition='transform 5.2s cubic-bezier(.08,.67,.05,1)';track.style.transform=`translateX(-${Math.max(0,offset)}px)`;setTimeout(()=>{state.inventory.unshift(...winners);state.opened+=count;state.xp+=count*20;winners.forEach(s=>log('Кейс: '+s.name));document.getElementById('dropImage').src=winner.image||'';document.getElementById('dropImage').style.display=winner.image?'block':'none';document.getElementById('dropName').textContent=count>1?`Последний дроп: ${winner.name}`:winner.name;document.getElementById('dropDetails').textContent=`${winner.rarity} · виртуальная стоимость ◈ ${fmt(winner.value)}${count>1?' · получено предметов: '+count:''}`;document.getElementById('dropBanner').classList.add('show');document.getElementById('rouletteStatus').textContent='РЕЗУЛЬТАТ';opening=false;document.getElementById('openButton').disabled=false;persist();toast('Предмет добавлен в инвентарь')},5400)}
+function chooseSkin(kind,key){if(upgrading)return;if(kind==='source'){selectedSource=key;selectedTarget=null}else selectedTarget=Number(key);renderUpgrade()}
+function sourceItem(){return state.inventory.find(s=>s.uid===selectedSource)}
+function targetItem(){return skins.find(s=>s.id===selectedTarget)}
+function targetsForSource(){let s=sourceItem();return s?skins.filter(t=>t.value>s.value).sort((a,b)=>a.value-b.value).slice(0,30):[]}
+function chance(){let s=sourceItem(),t=targetItem();if(!s||!t||t.value<=s.value)return 0;return Math.max(1,Math.min(90,Math.floor(s.value/t.value*90)))}
+function renderUpgrade(){let sources=state.inventory.slice().sort((a,b)=>b.value-a.value);document.getElementById('sourceCount').textContent=sources.length+' предметов';document.getElementById('sourceList').innerHTML=sources.length?sources.map(s=>skinCard(s,'source')).join(''):'<div class="empty">Инвентарь пуст.<br>Открой кейс, чтобы получить скин.</div>';let targets=targetsForSource();document.getElementById('targetCount').textContent=targets.length+' целей';document.getElementById('targetList').innerHTML=targets.length?targets.map(s=>skinCard(s,'target')).join(''):'<div class="empty">Сначала выбери свой скин слева.<br>Здесь появятся более дорогие цели.</div>';let c=chance(),s=sourceItem(),t=targetItem();document.getElementById('chanceValue').innerHTML=c+'<small>%</small>';document.getElementById('chanceBar').style.width=c+'%';document.getElementById('upgradeCaption').textContent=s&&t?`${s.name} → ${t.name}`:'Выбери предмет слева и цель справа';document.getElementById('upgradeButton').disabled=upgrading||!s||!t||t.value<=s.value;document.getElementById('upgradeButton').textContent=upgrading?'⟳ ПРОВЕРКА…':'⚡ УЛУЧШИТЬ';let visual=document.getElementById('upgradeVisual');visual.innerHTML=s&&t&&t.image?`<img src="${t.image}" alt="">`:'<div class="big-arrow">➜</div>'}
+function doUpgrade(){if(upgrading)return;let s=sourceItem(),t=targetItem(),idx=state.inventory.findIndex(x=>x.uid===selectedSource),c=chance();if(!s||!t||idx<0||!c){toast('Выбери исходный предмет и цель');return}upgrading=true;document.getElementById('upgradeVisual').classList.add('spinning');document.getElementById('upgradeResult').className='result';renderUpgrade();setTimeout(()=>{let win=Math.random()*100<c;document.getElementById('upgradeVisual').classList.remove('spinning');upgrading=false;let result=document.getElementById('upgradeResult');result.className='result show '+(win?'win':'lose');if(win){state.inventory.splice(idx,1,makeOwned(t));state.wins++;state.xp+=40;log('Успешный апгрейд: '+t.name);result.textContent='✓ УСПЕХ! Получен '+t.name;toast('Апгрейд успешен!')}else{state.inventory.splice(idx,1);log('Неудачный апгрейд: '+s.name);result.textContent='✕ НЕУДАЧА. Исходный предмет потерян.';toast('Неудача — предмет потерян')}selectedSource=null;selectedTarget=null;persist()},1900)}
+function renderInventory(){let q=(document.getElementById('searchInput')?.value||'').toLowerCase(),r=document.getElementById('rarityFilter')?.value||'all',sort=document.getElementById('sortFilter')?.value||'high';let arr=state.inventory.filter(s=>(r==='all'||s.rarity===r)&&s.name.toLowerCase().includes(q));arr.sort((a,b)=>sort==='high'?b.value-a.value:a.value-b.value);document.getElementById('inventoryGrid').innerHTML=arr.length?arr.map(s=>`<article class="inventory-card" style="--rarity:${s.color||rarityColor(s.rarity)}">${s.image?`<img src="${s.image}" alt="${escapeHtml(s.name)}" loading="lazy" onerror="this.style.opacity='.12'">`:`<div style="height:90px;display:grid;place-items:center;color:${s.color||rarityColor(s.rarity)};font-weight:900">${escapeHtml(s.weapon||s.name.split(' | ')[0])}</div>`}<b>${escapeHtml(s.name)}</b><div class="rarity">${escapeHtml(s.rarity)} · ◈ ${fmt(s.value)}</div><div class="card-actions"><button class="btn btn-small" onclick="fromInventory('${s.uid}')">Апгрейд</button><button class="btn btn-small" onclick="sellItem('${s.uid}')">Продать</button></div></article>`).join(''):'<div class="empty" style="grid-column:1/-1">Предметов пока нет.<br>Открой кейс, чтобы начать коллекцию.</div>'}
+function fromInventory(uid){selectedSource=uid;selectedTarget=null;goPage('upgrade')}
+function sellItem(uid){let s=state.inventory.find(x=>x.uid===uid);if(!s)return;let gain=Math.max(1,Math.floor(s.value*.7));state.inventory=state.inventory.filter(x=>x.uid!==uid);if(selectedSource===uid)selectedSource=null;state.coins+=gain;state.xp+=10;log('Продан '+s.name+' за '+gain+' монет');persist();toast('Получено ◈ '+fmt(gain))}
+function dailyBonus(){let d=new Date().toDateString();if(state.daily===d){toast('Ежедневный бонус уже получен');return}state.daily=d;state.coins+=200;log('Ежедневный бонус +200');persist();toast('Получено +200 виртуальных монет')}
+function saveName(){state.name=document.getElementById('playerName').value.trim()||'Player';persist();toast('Имя сохранено')}
+function renderProfile(){document.getElementById('statItems').textContent=state.inventory.length;document.getElementById('statOpened').textContent=state.opened;document.getElementById('statWins').textContent=state.wins;document.getElementById('statLevel').textContent=Math.floor(state.xp/250)+1;document.getElementById('xpText').textContent=state.xp+' XP';document.getElementById('playerName').value=state.name||'Player';document.getElementById('userAvatar').textContent=(state.name||'P').slice(0,1).toUpperCase();document.getElementById('historyList').innerHTML=state.history.length?state.history.map(x=>`<div class="history-line">${escapeHtml(x)}</div>`).join(''):'Пока событий нет.'}
+function renderAll(){document.getElementById('balance').textContent=fmt(state.coins);renderCases();renderUpgrade();renderInventory();renderProfile()}
+function exportSave(){let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='cs2skins-save.json';a.click();URL.revokeObjectURL(url)}
+function importSaveFile(e){let f=e.target.files[0];if(!f)return;let reader=new FileReader();reader.onload=()=>{try{let obj=JSON.parse(reader.result);state={...initialState(),...obj};selectedSource=null;selectedTarget=null;persist();toast('Сохранение загружено')}catch(err){toast('Не удалось прочитать файл сохранения')}e.target.value=''};reader.readAsText(f)}
+function resetGame(){if(!confirm('Точно сбросить весь прогресс?'))return;state=initialState();selectedSource=null;selectedTarget=null;persist();toast('Прогресс сброшен')}
+async function loadRealImages(){try{let controller=new AbortController(),timer=setTimeout(()=>controller.abort(),6500);let response=await fetch('https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins.json',{signal:controller.signal,cache:'force-cache'});clearTimeout(timer);if(!response.ok)throw Error('catalog');let data=await response.json();if(!Array.isArray(data))throw Error('format');let used=new Set(),mapped=[];for(let item of data){let name=item.name||'',image=item.image||'';if(!name||!image||used.has(name))continue;let weapon=typeof item.weapon==='object'?(item.weapon.name||'Weapon'):String(item.weapon||name.split(' | ')[0]);let rarity=typeof item.rarity==='object'?(item.rarity.name||'Mil-Spec'):String(item.rarity||'Mil-Spec');let low=rarity.toLowerCase();if(low.includes('consumer'))rarity='Consumer Grade';else if(low.includes('industrial'))rarity='Industrial Grade';else if(low.includes('mil-spec')||low.includes('mil spec'))rarity='Mil-Spec';else if(low.includes('restricted'))rarity='Restricted';else if(low.includes('classified'))rarity='Classified';else if(low.includes('covert'))rarity='Covert';else if(low.includes('extraordinary'))rarity='Extraordinary';else if(low.includes('contraband'))rarity='Rare';else continue;used.add(name);mapped.push({name,weapon,rarity,image,value:Math.max(5,Math.round(Math.pow(rarityOrder[rarity]||2,2.05)*12+(name.length%13)*7)),color:rarityColor(rarity)})}if(mapped.length>20){skins=mapped.map((s,i)=>({...s,id:i}));let fav=skins.find(s=>s.image);if(fav)document.getElementById('heroWeapon').innerHTML=`<img src="${fav.image}" alt="CS2 skin">`;renderAll();if(document.getElementById('page-open').classList.contains('active'))buildRoulette()}}catch(e){console.info('Используется встроенный каталог скинов.')} }
+renderAll();buildRoulette();loadRealImages();
 </script>
 </body>
 </html>
